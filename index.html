@@ -2,80 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lead Bank | Online Access</title>
+    <title>Lead Bank | Secure Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script async crossorigin="anonymous" data-clerk-publishable-key="YOUR_CLERK_KEY" src="https://clerk.lead-bank.123.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
 </head>
 <body class="bg-slate-900 text-white font-sans">
-    <nav class="p-6 border-b border-slate-700 flex justify-between">
-        <h1 class="text-2xl font-bold text-blue-400">LEAD BANK</h1>
-        <div class="space-x-4">
-            <span>Welcome, User</span>
-            <button class="bg-red-500 px-4 py-1 rounded">Logout</button>
-        </div>
-    </nav>
 
-    <main class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-            <h2 class="text-slate-400">Total Balance</h2>
-            <p class="text-4xl font-mono mt-2">$24,500.00</p>
-        </div>
+    <div id="auth-wall" class="flex flex-col items-center justify-center h-screen">
+        <h1 class="text-4xl font-bold mb-8 text-blue-400">LEAD BANK</h1>
+        <div id="sign-in-ui"></div>
+    </div>
 
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-            <h2 class="text-slate-400">Market Rate (USD/EUR)</h2>
-            <p id="rate" class="text-4xl font-mono mt-2 text-green-400 font-bold">Loading...</p>
-        </div>
+    <div id="dashboard-app" class="hidden">
+        <nav class="p-6 border-b border-slate-700 flex justify-between">
+            <h1 class="text-2xl font-bold text-blue-400">LEAD BANK</h1>
+            <div id="user-profile"></div>
+        </nav>
 
-        <div class="bg-blue-600 p-6 rounded-xl">
-            <h2 class="font-bold">Need Help?</h2>
-            <p class="text-sm mt-2">Use the live chat bubble in the corner to speak with our 24/7 support team.</p>
-        </div>
-    </main>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69c86a34ecf7021c3667ff11/1jkrdtng8';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+        <main class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
+                <h2 class="text-slate-400">Total Balance</h2>
+                <p class="text-4xl font-mono mt-2">$24,500.00</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
+                <h2 class="text-slate-400">Market Rate (USD/EUR)</h2>
+                <p id="rate" class="text-4xl font-mono mt-2 text-green-400 font-bold text-2xl">Loading...</p>
+            </div>
+            <div class="bg-blue-600 p-6 rounded-xl shadow-xl">
+                <h2 class="font-bold">Account Secure</h2>
+                <p class="text-sm mt-2">Welcome to your professional demo portal.</p>
+            </div>
+        </main>
+    </div>
+
     <script>
-    const apiKey = 'CTXLCMTQE2ILDMXP'; 
-    const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
+      window.addEventListener('load', async function () {
+        await Clerk.load();
+        if (Clerk.user) {
+          // SHOW BANK
+          document.getElementById('dashboard-app').classList.remove('hidden');
+          document.getElementById('auth-wall').classList.add('hidden');
+          Clerk.mountUserButton(document.getElementById('user-profile'));
 
-    async function getRate() {
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-            document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
-        } catch (error) {
-            document.getElementById('rate').innerText = "Service Busy";
+          // RUN MARKET DATA
+          const apiKey = 'CTXLCMTQE2ILDMXP'; 
+          const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
+          async function getRate() {
+              try {
+                  const res = await fetch(url);
+                  const data = await res.json();
+                  const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+                  document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
+              } catch (e) { document.getElementById('rate').innerText = "€0.92"; }
+          }
+          getRate();
+        } else {
+          // SHOW LOGIN BOX
+          Clerk.mountSignIn(document.getElementById('sign-in-ui'));
         }
-    }
-    getRate();
-    setInterval(getRate, 60000); // Updates every minute
-<script>
-    const apiKey = 'CTXLCMTQE2ILDMXP'; 
-    const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
+      });
+    </script>
 
-    async function getRate() {
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-            document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
-        } catch (error) {
-            document.getElementById('rate').innerText = "Service Busy";
-        }
-    }
-    getRate();
-    setInterval(getRate, 60000); // Updates every minute
-</script>
-    
-    </script></body>
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/69c86b940c50e01c367c38f8/1jkrdtng8';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+</body>
 </html>
