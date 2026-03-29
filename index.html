@@ -30,6 +30,34 @@
             <p class="text-sm mt-2">Use the live chat bubble in the corner to speak with our 24/7 support team.</p>
         </div>
     </main>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69c86a34ecf7021c3667ff11/1jkrdtng8';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+    <script>
+    const apiKey = 'CTXLCMTQE2ILDMXP'; 
+    const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
 
-    </body>
+    async function getRate() {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+            document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
+        } catch (error) {
+            document.getElementById('rate').innerText = "Service Busy";
+        }
+    }
+    getRate();
+    setInterval(getRate, 60000); // Updates every minute
+</script></body>
 </html>
