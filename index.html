@@ -2,55 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lead Bank | Secure Portal</title>
+    <title>Lead Bank | Online Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_c_HMuZGV2JA" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
 </head>
-<body class="bg-[#0f172a] text-slate-200">
-
-    <div id="auth-wall" class="flex flex-col items-center justify-center h-screen bg-[#0f172a]">
-        <h1 class="text-6xl font-extrabold text-blue-500 mb-4">LEAD BANK</h1>
-        <p class="text-slate-400 mb-8 text-lg">Elite Digital Asset Management</p>
-        
-        <button id="open-login" class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold text-xl shadow-2xl transition-all transform hover:scale-105">
-            Access Secure Dashboard
-        </button>
-        
-        <div id="sign-in-ui" class="mt-8"></div>
-    </div>
-
-    <div id="dashboard-app" class="hidden min-h-screen bg-[#0f172a] p-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h1 class="text-3xl font-bold text-blue-500">LEAD BANK</h1>
-                <div id="user-profile"></div>
-            </div>
-            <div class="bg-slate-800 p-10 rounded-3xl border border-slate-700 shadow-2xl">
-                <p class="text-slate-400 uppercase font-bold tracking-widest text-sm">Main Account Balance</p>
-                <p class="text-6xl font-mono mt-4 text-white">$24,500.00</p>
-            </div>
+<body class="bg-slate-900 text-white font-sans">
+    <nav class="p-6 border-b border-slate-700 flex justify-between">
+        <h1 class="text-2xl font-bold text-blue-400">LEAD BANK</h1>
+        <div class="space-x-4">
+            <span>Welcome, User</span>
+            <button class="bg-red-500 px-4 py-1 rounded">Logout</button>
         </div>
-    </div>
+    </nav>
 
-    <script>
-      window.addEventListener('load', async function () {
-        await Clerk.load();
+    <main class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+            <h2 class="text-slate-400">Total Balance</h2>
+            <p class="text-4xl font-mono mt-2">$24,500.00</p>
+        </div>
 
-        const openBtn = document.getElementById('open-login');
-        const signInDiv = document.getElementById('sign-in-ui');
+        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+            <h2 class="text-slate-400">Market Rate (USD/EUR)</h2>
+            <p id="rate" class="text-4xl font-mono mt-2 text-green-400 font-bold">Loading...</p>
+        </div>
 
-        if (Clerk.user) {
-          // If already logged in
-          document.getElementById('dashboard-app').classList.remove('hidden');
-          document.getElementById('auth-wall').classList.add('hidden');
-          Clerk.mountUserButton(document.getElementById('user-profile'));
-        } else {
-          // Force the Sign-in box to open when clicking the button
-          openBtn.addEventListener('click', () => {
-             Clerk.openSignIn(signInDiv);
-          });
-        }
-      });
-    </script>
-</body>
+        <div class="bg-blue-600 p-6 rounded-xl">
+            <h2 class="font-bold">Need Help?</h2>
+            <p class="text-sm mt-2">Use the live chat bubble in the corner to speak with our 24/7 support team.</p>
+        </div>
+    </main>
+
+    </body>
 </html>
