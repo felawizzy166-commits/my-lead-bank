@@ -2,35 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lead Bank | Secure Login</title>
+    <title>Lead Bank | Secure Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_c2FjcmVkLW11ZGZpc2gtNzkuY2xlcmsuYWNjb3VudHMuZGV2JA" src="https://clerk.lead-bank.123.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
 </head>
 <body class="bg-slate-900 text-white font-sans">
 
     <div id="auth-wall" class="flex flex-col items-center justify-center h-screen">
-        <h1 class="text-4xl font-bold mb-8 text-blue-400">LEAD BANK</h1>
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-blue-400">LEAD BANK</h1>
+            <p class="text-slate-400 mt-2">Secure Online Banking Portal</p>
+        </div>
         <div id="sign-in-ui"></div>
     </div>
 
     <div id="dashboard-app" class="hidden">
-        <nav class="p-6 border-b border-slate-700 flex justify-between">
+        <nav class="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800">
             <h1 class="text-2xl font-bold text-blue-400">LEAD BANK</h1>
             <div id="user-profile"></div>
         </nav>
 
         <main class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
-                <h2 class="text-slate-400">Total Balance</h2>
-                <p class="text-4xl font-mono mt-2">$24,500.00</p>
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-2xl">
+                <h2 class="text-slate-400 uppercase text-sm font-bold">Available Balance</h2>
+                <p class="text-4xl font-mono mt-2 text-white">$24,500.00</p>
             </div>
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
-                <h2 class="text-slate-400">Market Rate (USD/EUR)</h2>
-                <p id="rate" class="text-4xl font-mono mt-2 text-green-400 font-bold text-2xl">Loading...</p>
+            
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-2xl">
+                <h2 class="text-slate-400 uppercase text-sm font-bold">Market Rate (USD/EUR)</h2>
+                <p id="rate" class="text-4xl font-mono mt-2 text-green-400">Loading...</p>
             </div>
-            <div class="bg-blue-600 p-6 rounded-xl shadow-xl">
-                <h2 class="font-bold">Account Secure</h2>
-                <p class="text-sm mt-2">Welcome to your professional demo portal.</p>
+
+            <div class="bg-blue-600 p-8 rounded-2xl shadow-2xl">
+                <h2 class="font-bold text-xl text-white">Secure Session</h2>
+                <p class="text-blue-100 mt-2">Your account is protected by industry-standard encryption.</p>
             </div>
         </main>
     </div>
@@ -38,26 +43,25 @@
     <script>
       window.addEventListener('load', async function () {
         await Clerk.load();
+        
         if (Clerk.user) {
-          // SHOW BANK
+          // If user is logged in: Show Dashboard, Hide Login
           document.getElementById('dashboard-app').classList.remove('hidden');
           document.getElementById('auth-wall').classList.add('hidden');
           Clerk.mountUserButton(document.getElementById('user-profile'));
 
-          // RUN MARKET DATA
+          // Load Market Data
           const apiKey = 'CTXLCMTQE2ILDMXP'; 
           const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
-          async function getRate() {
-              try {
-                  const res = await fetch(url);
-                  const data = await res.json();
-                  const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-                  document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
-              } catch (e) { document.getElementById('rate').innerText = "€0.92"; }
-          }
-          getRate();
+          try {
+              const res = await fetch(url);
+              const data = await res.json();
+              const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+              document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
+          } catch (e) { document.getElementById('rate').innerText = "€0.92"; }
+
         } else {
-          // SHOW LOGIN BOX
+          // If user is logged out: Show Login Box
           Clerk.mountSignIn(document.getElementById('sign-in-ui'));
         }
       });
