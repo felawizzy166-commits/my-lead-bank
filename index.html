@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Lead Bank | Private Banking</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_c2FjcmVkLW11ZGZpc2gtNzkuY2xlcmsuYWNjb3VudHMuZGV2JA" src="https://clerk.lead-bank.123.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
+    <script 
+        async 
+        crossorigin="anonymous" 
+        data-clerk-publishable-key="pk_test_c_HMuZGV2JA" 
+        src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" 
+        type="text/javascript">
+    </script>
 </head>
 <body class="bg-[#0f172a] text-slate-200 font-sans">
 
@@ -13,15 +19,14 @@
             <h1 class="text-6xl font-extrabold text-blue-500 tracking-tight">LEAD BANK</h1>
             <p class="text-slate-400 mt-3 text-lg">Elite Digital Asset Management</p>
         </div>
-        <div id="sign-in-ui" class="shadow-2xl rounded-2xl overflow-hidden"></div>
+        <div id="sign-in-ui" class="shadow-2xl rounded-2xl overflow-hidden bg-white"></div>
     </div>
 
-    <div id="dashboard-app" class="hidden flex min-h-screen">
-        <aside class="w-64 bg-[#1e293b] border-r border-slate-700 p-6 flex flex-col">
+    <div id="dashboard-app" class="hidden min-h-screen flex flex-col md:flex-row">
+        <aside class="w-full md:w-64 bg-[#1e293b] border-r border-slate-700 p-6 flex flex-col">
             <h1 class="text-2xl font-bold text-blue-500 mb-10">LEAD BANK</h1>
             <nav class="space-y-4 flex-1">
                 <a href="#" class="block p-3 bg-blue-600 rounded-lg text-white font-bold">Dashboard</a>
-                <a href="#" class="block p-3 hover:bg-slate-700 rounded-lg transition">Accounts</a>
                 <a href="#" class="block p-3 hover:bg-slate-700 rounded-lg transition text-yellow-500 font-bold">Transfer Funds</a>
                 <a href="#" class="block p-3 hover:bg-slate-700 rounded-lg transition">Statements</a>
             </nav>
@@ -31,77 +36,41 @@
         <main class="flex-1 p-8">
             <header class="flex justify-between items-center mb-10">
                 <h2 class="text-3xl font-bold text-white">Accounts Overview</h2>
-                <button class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full font-bold transition shadow-lg">+ New Transfer</button>
+                <div class="text-green-400 font-bold">● System Secure</div>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                    <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">Total Available Balance</p>
-                    <p class="text-4xl font-mono mt-3 text-white">$24,500.00</p>
-                    <p class="text-green-500 text-sm mt-2">↑ 2.4% from last month</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                    <p class="text-slate-400 text-sm font-bold uppercase">Available Balance</p>
+                    <p class="text-5xl font-mono mt-3 text-white">$24,500.00</p>
                 </div>
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                    <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">Live Market Rate (EUR)</p>
-                    <p id="rate" class="text-4xl font-mono mt-3 text-blue-400">Loading...</p>
-                </div>
-                <div class="bg-gradient-to-br from-blue-700 to-indigo-800 p-6 rounded-2xl shadow-xl">
-                    <p class="text-blue-100 text-sm font-bold uppercase tracking-wider">Priority Status</p>
-                    <p class="text-2xl font-bold mt-3 text-white">Platinum Member</p>
-                    <p class="text-blue-200 text-xs mt-2">24/7 Dedicated Support Active</p>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                    <p class="text-slate-400 text-sm font-bold uppercase">Live Market (EUR)</p>
+                    <p id="rate" class="text-5xl font-mono mt-3 text-blue-400">€0.92</p>
                 </div>
             </div>
 
             <div class="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden">
-                <div class="p-6 border-b border-slate-700">
-                    <h3 class="font-bold text-white">Recent Transactions</h3>
+                <div class="p-6 border-b border-slate-700 bg-slate-900">
+                    <h3 class="font-bold text-white">Recent Activity</h3>
                 </div>
-                <table class="w-full text-left">
-                    <thead class="bg-slate-900 text-slate-400 text-xs uppercase">
-                        <tr>
-                            <th class="p-4">Description</th>
-                            <th class="p-4">Date</th>
-                            <th class="p-4 text-right">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-700">
-                        <tr>
-                            <td class="p-4 font-semibold">Wire Transfer Inbound</td>
-                            <td class="p-4 text-slate-400">Mar 28, 2026</td>
-                            <td class="p-4 text-right text-green-400 font-bold">+$12,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold">Cloud Services Payment</td>
-                            <td class="p-4 text-slate-400">Mar 27, 2026</td>
-                            <td class="p-4 text-right text-red-400 font-bold">-$450.00</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold">Monthly Dividend</td>
-                            <td class="p-4 text-slate-400">Mar 25, 2026</td>
-                            <td class="p-4 text-right text-green-400 font-bold">+$1,200.00</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="p-6 text-center text-slate-500 italic">No recent transactions to display</div>
             </div>
         </main>
     </div>
 
     <script>
       window.addEventListener('load', async function () {
+        // Wait for Clerk to load
         await Clerk.load();
+
         if (Clerk.user) {
+          // If logged in, hide blue screen and show bank
           document.getElementById('dashboard-app').classList.remove('hidden');
           document.getElementById('auth-wall').classList.add('hidden');
           Clerk.mountUserButton(document.getElementById('user-profile'));
-
-          const apiKey = 'CTXLCMTQE2ILDMXP'; 
-          const url = https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=EUR&apikey=${apiKey};
-          try {
-              const res = await fetch(url);
-              const data = await res.json();
-              const rate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-              document.getElementById('rate').innerText = '€' + parseFloat(rate).toFixed(2);
-          } catch (e) { document.getElementById('rate').innerText = "€0.92"; }
         } else {
+          // If NOT logged in, show the Sign In box
           Clerk.mountSignIn(document.getElementById('sign-in-ui'));
         }
       });
